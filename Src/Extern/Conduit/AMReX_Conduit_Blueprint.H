@@ -67,7 +67,9 @@ namespace amrex
                                  const Geometry &geom,
                                  Real time_value,
                                  int level_step,
-                                 conduit::Node &bp_mesh);
+                                 conduit::Node &bp_mesh,
+                                 double wc_sim_time = 0.0,
+                                 int vis_cycle = 0);
 
     // Creates an in-memory Mesh Blueprint representation of a multi-level
     // AMReX mesh.
@@ -81,7 +83,9 @@ namespace amrex
                                 Real time_value,
                                 const Vector<int> &level_steps,
                                 const Vector<IntVect> &ref_ratio,
-                                conduit::Node &bp_mesh);
+                                conduit::Node &bp_mesh,
+                                double wc_sim_time = 0.0,
+                                int vis_cycle = 0);
 
 #ifdef AMREX_PARTICLES
     // Creates an in-memory Mesh Blueprint representation of an AMReX

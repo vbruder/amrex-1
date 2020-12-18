@@ -315,7 +315,9 @@ SingleLevelToBlueprint (const MultiFab& mf,
                         const Geometry& geom,
                         Real time_value,
                         int level_step,
-                        Node &res)
+                        Node &res,
+                        double wc_sim_time,
+                        int vis_cycle)
 {
     // prepare inputs  so we can call the multi-level case
     Vector<const MultiFab*> mfarr(1,&mf);
@@ -331,7 +333,9 @@ SingleLevelToBlueprint (const MultiFab& mf,
                           time_value,
                           level_steps,
                           ref_ratio,
-                          res);
+                          res,
+                          wc_sim_time,
+                          vis_cycle);
 }
 
 //---------------------------------------------------------------------------//
@@ -345,7 +349,9 @@ MultiLevelToBlueprint (int n_levels,
                        Real time_value,
                        const Vector<int>& level_steps,
                        const Vector<IntVect>& ref_ratio,
-                       Node &res)
+                       Node &res,
+                       double wc_sim_time,
+                       int vis_cycle)
 {
     BL_PROFILE("MultiLevelToBlueprint()");
 
@@ -405,10 +411,15 @@ MultiLevelToBlueprint (int n_levels,
                                                                6);
 
             Node &patch = res[patch_name];
+
             // add basic state info
             patch["state/domain_id"] = domain_id;
             patch["state/cycle"] = level_steps[0];
             patch["state/time"] = time_value;
+            patch["state/sim_time"] = wc_sim_time;
+            patch["state/vis_iteration"] = vis_cycle;
+
+            // patch.print();
 
             const FArrayBox &fab = mf[mfi];
 
